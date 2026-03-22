@@ -21,5 +21,6 @@ export default function EcoLemnaLanding() {
       <Footer />
       <ChatbotBubble />
     </main>
+    
   )
 }

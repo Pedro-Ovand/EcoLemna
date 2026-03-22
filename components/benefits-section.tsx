@@ -5,7 +5,7 @@ import { TrendingUp, Droplets, Leaf } from "lucide-react"
 const benefits = [
   {
     icon: TrendingUp,
-    title: "Crecimiento Acelerado",
+    title: "10x más proteína",
     description: "10x más proteína que alimentos tradicionales. Observa un desarrollo más rápido y saludable en tus peces."
   },
   {
