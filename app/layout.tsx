@@ -19,11 +19,11 @@ export const metadata: Metadata = {
         media: '(prefers-color-scheme: light)',
       },
       {
-        url: '/icon-dark-32x32.png',
+        url: '/Logo-EcoLemna.png',
         media: '(prefers-color-scheme: dark)',
       },
       {
-        url: '/icon.svg',
+        url: '/Logo-EcoLemna.png',
         type: 'image/svg+xml',
       },
     ],
