@@ -103,14 +103,19 @@ export function Header() {
         isScrolled ? "bg-background/80 backdrop-blur-xl border-b border-border/50 py-3" : "bg-transparent py-5"
       }`}>
         <div className="container mx-auto px-6 lg:px-12 flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-2 group">
-            <div className="w-10 h-10 rounded-xl bg-primary/20 flex items-center justify-center group-hover:bg-primary/30 transition-all">
-              <svg className="w-6 h-6 text-primary" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.94-.49-7-3.85-7-7.93s3.06-7.44 7-7.93v15.86zm2-15.86c1.03.13 2 .45 2.87.93H13v-.93zM13 7h5.24c.25.31.48.65.68 1H13V7zm0 3h6.74c.08.33.15.66.19 1H13v-1zm0 9.93V19h2.87c-.87.48-1.84.8-2.87.93zM18.24 17H13v-1h5.92c-.2.35-.43.69-.68 1zm1.5-3H13v-1h6.93c-.04.34-.11.67-.19 1z"/>
-              </svg>
-            </div>
-            <span className="text-xl font-bold tracking-tight">Eco<span className="text-primary">Lemna</span></span>
-          </Link>
+          <Link href="/" className="flex items-center gap-3 group">
+  {/* Agrandamos la caja a w-12 h-12 (o cámbialo a w-14 h-14 si lo quieres aún más grande) */}
+  <div className="w-22 h-22 rounded-xl bg-primary/0 flex items-center justify-center group-hover:bg-primary/30 transition-all p-1">
+    <img 
+      src="/Logo-EcoLemna.png" 
+      alt="Logo de EcoLemna" 
+      /* La imagen ahora toma todo el alto de su nueva caja grande */
+      className="h-full w-auto object-contain"
+    />
+  </div>
+  {/* Hice el texto un poquito más grande (text-2xl) para que combine con el nuevo logo */}
+  <span className="text-2xl font-bold tracking-tight">Eco<span className="text-primary">Lemna</span></span>
+</Link>
 
           <nav className="hidden md:flex items-center gap-8">
             {navLinks.map((link) => (

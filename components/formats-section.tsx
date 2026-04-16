@@ -81,7 +81,7 @@ export function FormatsSection() {
     <section id="formatos" className="py-32 bg-background relative">
       <div className="container mx-auto px-6 lg:px-12">
         <div className="text-center mb-20">
-          <h2 className="text-4xl font-bold">Nuestros Formatos</h2>
+          <h2 className="text-4xl font-bold">Nuestros Productos</h2>
         </div>
 
         <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">

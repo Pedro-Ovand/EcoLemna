@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button"
 
 export function HeroSection() {
   return (
-    <section className="relative min-h-screen flex items-center overflow-hidden">
+    <section className="relative min-h-screen flex items-center overflow-hidden pt-32 lg:pt-20">
       {/* Organic background elements */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute -top-1/2 -left-1/4 w-[800px] h-[800px] rounded-full bg-gradient-to-br from-primary/5 to-transparent blur-3xl" />
@@ -51,7 +51,7 @@ export function HeroSection() {
                   </svg>
                 </div>
                 <p className="text-muted-foreground text-sm max-w-xs mx-auto leading-relaxed">
-                  [PLACEHOLDER VISUAL: Macro render 3D de un pellet de EcoLemna cayendo en agua cristalina, con hojas sutiles de Lemna around. Iluminación lateral premium estilo Sony]
+                  [Foto lemna]
                 </p>
               </div>
             </div>
