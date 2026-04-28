@@ -153,6 +153,52 @@ export function Header() {
             {isMobileMenuOpen ? <X /> : <Menu />}
           </button>
         </div>
+
+        {/* --- MENÚ DESPLEGABLE MÓVIL --- */}
+        {isMobileMenuOpen && (
+          <div className="md:hidden bg-background/95 backdrop-blur-xl border-b border-border/50 py-6 px-6 space-y-6 animate-in fade-in slide-in-from-top-4 duration-300">
+            <nav className="flex flex-col gap-4">
+              {navLinks.map((link) => (
+                <a 
+                  key={link.href} 
+                  href={link.href} 
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="text-lg font-medium text-foreground/70 hover:text-primary transition-colors"
+                >
+                  {link.label}
+                </a>
+              ))}
+            </nav>
+
+            <div className="pt-6 border-t border-border/50">
+              {user ? (
+                <div className="flex flex-col gap-4">
+                  <button 
+                    onClick={() => {
+                      setIsProfileOpen(true);
+                      setIsMobileMenuOpen(false);
+                    }}
+                    className="flex items-center justify-center gap-3 w-full py-4 bg-primary/10 text-primary rounded-2xl font-bold"
+                  >
+                    <User className="w-5 h-5" /> Mi Perfil
+                  </button>
+                  <button 
+                    onClick={handleLogout}
+                    className="flex items-center justify-center gap-2 w-full text-muted-foreground py-2"
+                  >
+                    <LogOut className="w-5 h-5" /> Cerrar Sesión
+                  </button>
+                </div>
+              ) : (
+                <Link href="/login" onClick={() => setIsMobileMenuOpen(false)}>
+                  <Button className="w-full h-14 rounded-2xl text-lg font-bold">
+                    Iniciar Sesión
+                  </Button>
+                </Link>
+              )}
+            </div>
+          </div>
+        )}
       </header>
 
       {/* MODAL DE CONFIGURACIÓN DE PERFIL */}

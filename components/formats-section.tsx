@@ -74,30 +74,40 @@ function ServiceCard({ service, onAddToCart }: { service: Product, onAddToCart: 
   ];
 
   return (
-    <div className="mt-16 bg-primary/5 border-2 border-primary/20 rounded-[40px] p-8 lg:p-12 relative overflow-hidden group">
-      <div className="absolute top-0 right-0 p-8 opacity-10 group-hover:rotate-12 transition-transform duration-700">
+    <div className="mt-8 md:mt-16 bg-primary/5 border-2 border-primary/20 rounded-[32px] md:rounded-[40px] p-6 md:p-8 lg:p-12 relative overflow-hidden group">
+      {/* Icono de fondo - Lo ocultamos en móviles muy pequeños para limpiar la vista */}
+      <div className="absolute top-0 right-0 p-8 opacity-10 group-hover:rotate-12 transition-transform duration-700 hidden sm:block">
         <GraduationCap size={200} />
       </div>
       
-      <div className="relative z-10 grid lg:grid-cols-2 gap-12 items-center">
+      <div className="relative z-10 grid lg:grid-cols-2 gap-8 md:gap-12 items-center">
         <div>
-          <div className="inline-flex items-center gap-2 bg-primary text-primary-foreground px-4 py-1.5 rounded-full text-xs font-black uppercase tracking-widest mb-6">
+          <div className="inline-flex items-center gap-2 bg-primary text-primary-foreground px-4 py-1.5 rounded-full text-[10px] md:text-xs font-black uppercase tracking-widest mb-4 md:mb-6">
             <GraduationCap className="w-4 h-4" /> Servicio de Capacitación
           </div>
-          <h3 className="text-4xl md:text-5xl font-black tracking-tighter mb-6">Kit de Cultivo</h3>
+          {/* Título responsivo: más pequeño en móvil (text-3xl) y grande en escritorio (md:text-5xl) */}
+          <h3 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tighter mb-6">Kit de Cultivo</h3>
           <div className="space-y-3">
             {puntos.map((punto, i) => (
-              <div key={i} className="flex items-center gap-3 text-foreground/80 font-medium">
-                <CheckCircle2 className="w-5 h-5 text-primary shrink-0" /> {punto}
+              <div key={i} className="flex items-start gap-3 text-foreground/80 text-sm md:text-base font-medium">
+                <CheckCircle2 className="w-5 h-5 text-primary shrink-0 mt-0.5" /> 
+                <span>{punto}</span>
               </div>
             ))}
           </div>
         </div>
 
-        <div className="bg-card border border-border/50 p-8 rounded-[32px] shadow-2xl text-center">
-          <p className="text-sm font-bold text-muted-foreground uppercase mb-2">Inversión del Servicio</p>
-          <p className="text-6xl font-black text-primary mb-8">${Number(service.precio).toFixed(2)} <span className="text-sm">MXN</span></p>
-          <Button onClick={() => onAddToCart(service.id)} className="w-full h-20 rounded-[24px] text-xl font-black shadow-2xl shadow-primary/30 transition-all hover:scale-105">
+        {/* Caja de Precio Ajustada */}
+        <div className="bg-card border border-border/50 p-6 md:p-8 rounded-[24px] md:rounded-[32px] shadow-2xl text-center">
+          <p className="text-xs font-bold text-muted-foreground uppercase mb-2">Inversión del Servicio</p>
+          
+          {/* PRECIO MÁGICO: text-4xl en móvil, sube a 5xl y luego a 6xl en pantallas grandes */}
+          <p className="text-4xl sm:text-5xl lg:text-6xl font-black text-primary mb-6 md:mb-8 break-words">
+            ${Number(service.precio).toFixed(2)} 
+            <span className="text-sm block sm:inline ml-1">MXN</span>
+          </p>
+          
+          <Button onClick={() => onAddToCart(service.id)} className="w-full h-16 md:h-20 rounded-[18px] md:rounded-[24px] text-lg md:text-xl font-black shadow-2xl shadow-primary/30 transition-all hover:scale-105 active:scale-95">
             Reservar Capacitación
           </Button>
         </div>

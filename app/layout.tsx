@@ -8,6 +8,7 @@ const spaceGrotesk = Space_Grotesk({
   variable: '--font-sans'
 });
 
+
 export const metadata: Metadata = {
   title: 'EcoLemna | Nutrición Biotecnológica para Peces',
   description: 'EcoLemna aprovecha la fuerza de la Lemna minor para ofrecer el suplemento más potente y sostenible para tus peces. 10x más proteína.',
@@ -33,6 +34,9 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = {
   themeColor: '#0A120D',
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1, // Esto evita el zoom automático molesto en algunos móviles
 }
 
 export default function RootLayout({
@@ -42,7 +46,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es">
-      <body className={`${spaceGrotesk.variable} font-sans antialiased`}>
+      <body className={`${spaceGrotesk.variable} font-sans antialiased overflow-x-hidden`}>
         {children}
         <Analytics />
       </body>
