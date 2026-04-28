@@ -3,7 +3,7 @@
 // 1. AHORA USAMOS 'src' PARA LA RUTA DE TU IMAGEN
 const galleryItems = [
   {
-    src: "/gallery/pez.jpg", // Asegúrate de que el nombre coincida exactamente con el de tu carpeta
+    src: "/equipoEcolemna.jfif", // Asegúrate de que el nombre coincida exactamente con el de tu carpeta
     alt: "Equipo completo EcoLemna",
     size: "large",
     span: "col-span-2 row-span-2"
@@ -31,6 +31,12 @@ const galleryItems = [
     alt: "aa",
     size: "small",
     span: "col-span-1 row-span-1"
+  },
+  {
+    src: "/PesoLemna.jpeg",
+    alt: "aa",
+    size: "small",
+    span: "col-span-1 row-span-1"
   }
 ]
 
@@ -49,7 +55,7 @@ export function GallerySection() {
             Galería
           </span>
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground text-balance">
-            Galería Deep Green
+            Galería de Nuestro Proceso y Equipo
           </h2>
         </div>
 

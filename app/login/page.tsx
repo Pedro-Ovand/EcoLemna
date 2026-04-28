@@ -92,7 +92,7 @@ export default function LoginPage() {
               <>
                 <div className="space-y-2">
                   <Label htmlFor="name">Nombre completo</Label>
-                  <Input id="name" placeholder="Peter Ovando" required value={formData.name} onChange={handleChange} className="bg-background rounded-xl" />
+                  <Input id="name" placeholder="Nombre completo" required value={formData.name} onChange={handleChange} className="bg-background rounded-xl" />
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="address" className="flex items-center gap-2">

@@ -10,8 +10,8 @@ const spaceGrotesk = Space_Grotesk({
 
 export const metadata: Metadata = {
   title: 'EcoLemna | Nutrición Biotecnológica para Peces',
-  description: 'EcoLemna aprovecha la fuerza de la Lemna minor para ofrecer el alimento más potente y sostenible para tus peces. 10x más proteína.',
-  generator: 'v0.app',
+  description: 'EcoLemna aprovecha la fuerza de la Lemna minor para ofrecer el suplemento más potente y sostenible para tus peces. 10x más proteína.',
+  generator: 'next.js',
   icons: {
     icon: [
       {

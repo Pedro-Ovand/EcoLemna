@@ -16,6 +16,7 @@ const PREDEFINED_QUESTIONS = [
   "¿Cómo funciona el envío?",
   "¿Qué es la Lemna?",
   "Tiempo de crecimiento de la Lemna",
+  "Servicio de capacitación"
 ]
 
 export function ChatbotBubble() {

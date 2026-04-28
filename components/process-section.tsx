@@ -1,25 +1,21 @@
 "use client"
 
-import { RefreshCw, Cpu, Package } from "lucide-react"
-
+// 1. Modificamos la lista para que use tus imágenes en lugar de íconos
 const steps = [
   {
-    icon: RefreshCw,
+    image: "/Crecimiento.jpeg", // 👈 Cambia esto por el nombre real de tu foto 1
     title: "Cultivo Rápido",
-    placeholder: "[PLACEHOLDER: Gráfico circular de la planta Lemna duplicándose en 24h]",
     description: "La Lemna minor se duplica naturalmente cada 24 horas, creando una fuente infinita de proteína."
   },
   {
-    icon: Cpu,
-    title: "Procesamiento Premium",
-    placeholder: "[PLACEHOLDER: Ilustración de procesamiento tecnológico limpio]",
-    description: "Tecnología de vanguardia que preserva todos los nutrientes esenciales."
+    image: "/Secado.jpeg", // 👈 Cambia esto por el nombre real de tu foto 2
+    title: "Procesamiento de secado",
+    description: "Secado que preserva todos los nutrientes."
   },
   {
-    icon: Package,
+    image: "/crudayharina.jpg", // 👈 Cambia esto por el nombre real de tu foto 3
     title: "Nutrición Total",
-    placeholder: "[PLACEHOLDER: Gráfico de pellets y polvo final]",
-    description: "Producto final rico en proteínas, vitaminas y minerales esenciales."
+    description: "Producto final rico en proteínas, vitaminas y aminoácidos esenciales."
   }
 ]
 
@@ -33,7 +29,7 @@ export function ProcessSection() {
             El Proceso
           </span>
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground text-balance">
-            La Bio-fábrica Sostenible
+            Detrás de EcoLemna
           </h2>
         </div>
 
@@ -43,31 +39,29 @@ export function ProcessSection() {
           <div className="hidden md:block absolute top-24 left-1/6 right-1/6 h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
           
           {steps.map((step, index) => (
-            <div key={index} className="relative group">
+            <div key={index} className="relative group mt-8 md:mt-0">
               {/* Card */}
-              <div className="bg-background/50 backdrop-blur-sm border border-border rounded-3xl p-8 transition-all duration-300 hover:border-primary/50 hover:shadow-[0_0_40px_rgba(182,255,64,0.1)]">
-                {/* Step number */}
-                <div className="absolute -top-4 left-8 w-8 h-8 rounded-full bg-primary flex items-center justify-center text-primary-foreground font-bold text-sm">
+              <div className="bg-background/50 backdrop-blur-sm border border-border rounded-3xl p-6 transition-all duration-300 hover:border-primary/50 hover:shadow-[0_0_40px_rgba(182,255,64,0.1)] h-full flex flex-col">
+                
+                {/* Step number (La bolita con el número) */}
+                <div className="absolute -top-4 left-8 w-10 h-10 rounded-full bg-primary flex items-center justify-center text-primary-foreground font-black text-lg shadow-lg z-10">
                   {index + 1}
                 </div>
                 
-                {/* Icon */}
-                <div className="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center mb-6 group-hover:bg-primary/20 transition-colors">
-                  <step.icon className="w-8 h-8 text-primary" strokeWidth={1.5} />
-                </div>
-                
-                {/* Visual Placeholder */}
-                <div className="aspect-video rounded-2xl bg-secondary/50 border border-border/50 flex items-center justify-center p-4 mb-6">
-                  <p className="text-muted-foreground text-xs text-center leading-relaxed">
-                    {step.placeholder}
-                  </p>
+                {/* 📸 ÁREA DE LA IMAGEN REAL */}
+                <div className="aspect-video rounded-2xl overflow-hidden bg-secondary/50 border border-border/50 mb-6 relative">
+                  <img 
+                    src={step.image} 
+                    alt={step.title}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                  />
                 </div>
                 
                 {/* Content */}
-                <h3 className="text-xl font-bold text-foreground mb-3">
+                <h3 className="text-2xl font-black text-foreground mb-3 tracking-tight">
                   {step.title}
                 </h3>
-                <p className="text-muted-foreground leading-relaxed">
+                <p className="text-muted-foreground leading-relaxed font-medium">
                   {step.description}
                 </p>
               </div>

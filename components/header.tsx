@@ -17,7 +17,7 @@ import { Menu, X, User, LogOut, Settings, Loader2 } from "lucide-react"
 const navLinks = [
   { label: "Nutrición", href: "#nutricion" },
   { label: "Proceso", href: "#proceso" },
-  { label: "Formatos", href: "#formatos" },
+  { label: "Productos", href: "#formatos" },
 ]
 
 export function Header() {
