@@ -44,7 +44,7 @@ export function HeroSection() {
           <div className="relative">
             <div className="aspect-square rounded-3xl overflow-hidden shadow-2xl border border-border/50 relative group">
               <img 
-                src="/EnvolturaLemna.jpeg" 
+                src="/EnvolturaLemna2.jfif" 
                 alt="Cultivo premium de Lemna Minor" 
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
               />

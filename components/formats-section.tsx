@@ -18,7 +18,7 @@ interface Product {
   stock: number;
 }
 
-// 📦 TARJETA DE PRODUCTOS (Cruda y Harina)
+// TARJETA DE PRODUCTO (Harina de Lemna)
 function ProductVariantCard({ title, image, variants, onAddToCart }: { title: string, image: string, variants: Product[], onAddToCart: (id: number) => void }) {
   const [selectedVariantId, setSelectedVariantId] = useState<number | null>(null);
   
@@ -28,34 +28,31 @@ function ProductVariantCard({ title, image, variants, onAddToCart }: { title: st
   
   const selectedVariant = variants.find(v => v.id === selectedVariantId) || variants[0];
   if (!selectedVariant) return null;
-  const getWeight = (name: string) => name.split('(')[1]?.replace(')', '') || name;
 
   return (
     <div className="bg-card border border-border/60 rounded-[32px] p-6 hover:shadow-2xl transition-all duration-500 flex flex-col group">
       
-      {/* 📸 ÁREA DE LA IMAGEN REAL */}
-      <div className="aspect-[4/3] bg-secondary/30 rounded-[24px] mb-6 flex flex-col items-center justify-center border border-border relative overflow-hidden">
+      {/* AREA DE LA IMAGEN REAL AJUSTADA */}
+      <div className="aspect-square bg-secondary/20 rounded-[24px] mb-6 flex items-center justify-center border border-border relative overflow-hidden p-4">
         <img 
           src={image} 
           alt={title} 
-          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+          className="max-h-full max-w-full object-contain group-hover:scale-105 transition-transform duration-500"
         />
       </div>
 
       <h3 className="text-3xl font-black tracking-tighter mb-6 text-center">{title}</h3>
       <div className="flex-grow space-y-6">
         <div className="space-y-4">
-          <p className="text-xs font-bold uppercase tracking-widest text-center text-primary">Tamaño:</p>
-          <div className="flex justify-center gap-3">
-            {variants.map((v) => (
-              <button key={v.id} onClick={() => setSelectedVariantId(v.id)} className={`px-5 py-2.5 rounded-full text-xs font-black transition-all border-2 ${selectedVariantId === v.id ? "border-primary bg-primary text-primary-foreground" : "border-border text-muted-foreground hover:border-primary/50"}`}>
-                {getWeight(v.nombre)}
-              </button>
-            ))}
+          <p className="text-xs font-bold uppercase tracking-widest text-center text-primary">Tamaño: 50g</p>
+          <div className="flex justify-center">
+            <span className="px-5 py-2.5 rounded-full text-xs font-black border-2 border-primary bg-primary text-primary-foreground">
+              50g
+            </span>
           </div>
         </div>
         <div className="pt-6 border-t border-border/50 text-center">
-            <p className="text-4xl font-black">${Number(selectedVariant.precio).toFixed(2)} <span className="text-xs text-primary">MXN</span></p>
+          <p className="text-4xl font-black">$51.63 <span className="text-xs text-primary">MXN</span></p>
         </div>
       </div>
       <Button onClick={() => onAddToCart(selectedVariant.id)} disabled={selectedVariant.stock === 0} className="w-full h-16 rounded-[20px] text-lg font-black mt-8 shadow-xl shadow-primary/10 transition-all hover:-translate-y-1">
@@ -65,7 +62,7 @@ function ProductVariantCard({ title, image, variants, onAddToCart }: { title: st
   );
 }
 
-// 🎓 TARJETA DE SERVICIO (Capacitación)
+// TARJETA DE SERVICIO (Capacitacion)
 function ServiceCard({ service, onAddToCart }: { service: Product, onAddToCart: (id: number) => void }) {
   const puntos = [
     "1 kilo de Lemna Cruda/Harina (a elegir) o medio kilo de ambas",
@@ -75,7 +72,7 @@ function ServiceCard({ service, onAddToCart }: { service: Product, onAddToCart: 
 
   return (
     <div className="mt-8 md:mt-16 bg-primary/5 border-2 border-primary/20 rounded-[32px] md:rounded-[40px] p-6 md:p-8 lg:p-12 relative overflow-hidden group">
-      {/* Icono de fondo - Lo ocultamos en móviles muy pequeños para limpiar la vista */}
+      {/* Icono de fondo - Lo ocultamos en moviles muy pequeños para limpiar la vista */}
       <div className="absolute top-0 right-0 p-8 opacity-10 group-hover:rotate-12 transition-transform duration-700 hidden sm:block">
         <GraduationCap size={200} />
       </div>
@@ -85,7 +82,7 @@ function ServiceCard({ service, onAddToCart }: { service: Product, onAddToCart: 
           <div className="inline-flex items-center gap-2 bg-primary text-primary-foreground px-4 py-1.5 rounded-full text-[10px] md:text-xs font-black uppercase tracking-widest mb-4 md:mb-6">
             <GraduationCap className="w-4 h-4" /> Servicio de Capacitación
           </div>
-          {/* Título responsivo: más pequeño en móvil (text-3xl) y grande en escritorio (md:text-5xl) */}
+          {/* Titulo responsivo: mas pequeño en movil (text-3xl) y grande en escritorio (md:text-5xl) */}
           <h3 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tighter mb-6">Kit de Cultivo</h3>
           <div className="space-y-3">
             {puntos.map((punto, i) => (
@@ -101,7 +98,7 @@ function ServiceCard({ service, onAddToCart }: { service: Product, onAddToCart: 
         <div className="bg-card border border-border/50 p-6 md:p-8 rounded-[24px] md:rounded-[32px] shadow-2xl text-center">
           <p className="text-xs font-bold text-muted-foreground uppercase mb-2">Inversión del Servicio</p>
           
-          {/* PRECIO MÁGICO: text-4xl en móvil, sube a 5xl y luego a 6xl en pantallas grandes */}
+          {/* PRECIO: text-4xl en movil, sube a 5xl y luego a 6xl en pantallas grandes */}
           <p className="text-4xl sm:text-5xl lg:text-6xl font-black text-primary mb-6 md:mb-8 break-words">
             ${Number(service.precio).toFixed(2)} 
             <span className="text-sm block sm:inline ml-1">MXN</span>
@@ -142,7 +139,7 @@ export function FormatsSection() {
     setCart(prev => { const newCart = { ...prev }; if (newCart[id] > 1) newCart[id] -= 1; else delete newCart[id]; return newCart; })
   }
 
-  // 🔴 AQUÍ RESTAURAMOS EL CONTADOR TOTAL DE PRODUCTOS
+  // AQUI RESTAURAMOS EL CONTADOR TOTAL DE PRODUCTOS
   const cartCount = Object.values(cart).reduce((a, b) => a + b, 0);
 
   const calculateTotal = () => {
@@ -153,7 +150,6 @@ export function FormatsSection() {
     }, 0)
   }
 
-  const cruda = Array.isArray(products) ? products.filter(p => p.nombre.toLowerCase().includes('cruda')) : [];
   const harina = Array.isArray(products) ? products.filter(p => p.nombre.toLowerCase().includes('harina')) : [];
   const servicio = Array.isArray(products) ? products.find(p => p.nombre.toLowerCase().includes('capacitación')) : null;
 
@@ -167,31 +163,25 @@ export function FormatsSection() {
           <p className="text-muted-foreground font-medium uppercase tracking-[0.2em] text-xs">Productos y Servicios</p>
         </div>
 
-        {/* RECUADROS DE PRODUCTOS */}
-        <div className="grid md:grid-cols-2 gap-8 lg:gap-16">
-          {cruda.length > 0 && (
-            <ProductVariantCard 
-              title="Lemna Cruda" 
-              image="/LemnaCruda.jpeg" /* 👈 AQUÍ PONES EL NOMBRE DE TU FOTO 1 */
-              variants={cruda} 
-              onAddToCart={addToCart} 
-            />
-          )}
-          {harina.length > 0 && (
-            <ProductVariantCard 
-              title="Harina de Lemna" 
-              image="/harina.jpg" /* 👈 AQUÍ PONES EL NOMBRE DE TU FOTO 2 */
-              variants={harina} 
-              onAddToCart={addToCart} 
-            />
-          )}
+        {/* RECUADRO DE PRODUCTO CENTRADO */}
+        <div className="flex justify-center">
+          <div className="w-full max-w-md">
+            {harina.length > 0 && (
+              <ProductVariantCard 
+                title="Harina de Lemna" 
+                image="/Harina_Lemna_50g.jpg" /* AQUI PONES EL NOMBRE DE TU FOTO */
+                variants={harina} 
+                onAddToCart={addToCart} 
+              />
+            )}
+          </div>
         </div>
 
         {/* RECUADRO DE SERVICIO (ABAJO) */}
         {servicio && <ServiceCard service={servicio} onAddToCart={addToCart} />}
       </div>
 
-      {/* 🔴 CARRITO FLOTANTE (Con la bolita roja restaurada) */}
+      {/* CARRITO FLOTANTE */}
       {cartCount > 0 && (
         <button onClick={() => setIsCartOpen(true)} className="fixed bottom-24 right-8 bg-primary text-primary-foreground p-4 rounded-2xl shadow-2xl z-40 animate-bounce-subtle flex items-center gap-3 transition-transform active:scale-90 hover:scale-105">
           <div className="relative">
@@ -232,7 +222,7 @@ export function FormatsSection() {
                 })}
               </div>
 
-              {/* 🔴 DIRECCIÓN DE ENVÍO RESTAURADA */}
+              {/* DIRECCION DE ENVIO RESTAURADA */}
               <div className="bg-primary/5 p-4 rounded-2xl border border-primary/20 space-y-2 mt-2">
                 <p className="text-xs font-bold text-primary uppercase flex items-center gap-2">
                   <Truck className="w-4 h-4"/> Envío a tu dirección:
@@ -241,22 +231,40 @@ export function FormatsSection() {
               </div>
 
               <div className="pt-4 border-t border-border flex flex-col gap-4">
-    <div className="flex justify-between items-center px-2">
-      {/* 1. Quitamos la frase "(+ Envío)" */}
-      <span className="font-black text-muted-foreground uppercase text-xs tracking-widest">Total:</span>
-      
-      {/* 2. Le quitamos el "+ 5" a la fórmula matemática */}
-      <span className="text-3xl font-black text-primary">${calculateTotal().toFixed(2)} <span className="text-xs">MXN</span></span>
-    </div>
-    {/* Botón deshabilitado si no hay dirección */}
-    <Button onClick={() => setIsOrdered(true)} disabled={!userData.address || cartCount === 0} className="w-full h-16 rounded-[24px] text-lg font-black shadow-lg shadow-primary/20">
-      <CreditCard className="mr-2 h-6 w-6" /> Pagar Seguro
-    </Button>
-</div>
+                <div className="flex justify-between items-center px-2">
+                  {/* 1. Quitamos la frase "(+ Envío)" */}
+                  <span className="font-black text-muted-foreground uppercase text-xs tracking-widest">Total:</span>
+                  
+                  {/* 2. Le quitamos el "+ 5" a la fórmula matemática */}
+                  <span className="text-3xl font-black text-primary">${calculateTotal().toFixed(2)} <span className="text-xs">MXN</span></span>
+                </div>
+                {/* Botón deshabilitado si no hay dirección */}
+                <Button onClick={() => setIsOrdered(true)} disabled={!userData.address || cartCount === 0} className="w-full h-16 rounded-[24px] text-lg font-black shadow-lg shadow-primary/20">
+                  <CreditCard className="mr-2 h-6 w-6" /> Pagar Seguro
+                </Button>
+              </div>
             </div>
           ) : (
             <div className="py-12 text-center space-y-4">
-              <div className="text-6xl">🚀</div>
+              <div className="flex justify-center">
+                <div className="w-20 h-20 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center text-primary shadow-lg shadow-primary/10">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className="w-10 h-10 animate-bounce"
+                  >
+                    <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z" />
+                    <path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z" />
+                    <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0" />
+                    <path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5" />
+                  </svg>
+                </div>
+              </div>
               <h3 className="text-3xl font-bold">¡Pedido Confirmado!</h3>
               <p className="text-muted-foreground text-balance">
                 Gracias <strong>{userData.name}</strong>. Hemos procesado tu compra y el envío está programado a <strong>{userData.address}</strong>.
