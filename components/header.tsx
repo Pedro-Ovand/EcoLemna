@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Menu, X, User, LogOut, Settings, Loader2 } from "lucide-react"
+import { Menu, X, User, LogOut, Settings, Loader2, CheckCircle2, AlertCircle } from "lucide-react"
 
 const navLinks = [
   { label: "Nutrición", href: "#nutricion" },
@@ -24,19 +24,31 @@ export function Header() {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   
-  // Estado del usuario
+  // Estado de usuario autenticado
   const [user, setUser] = useState<{ name: string; email: string; address: string } | null>(null)
   
-  // Estados para el Modal del Perfil
+  // Estados del modal de edicion de perfil
   const [isProfileOpen, setIsProfileOpen] = useState(false)
   const [loading, setLoading] = useState(false)
   const [profileData, setProfileData] = useState({ name: "", email: "", address: "", password: "" })
+
+  // Estado del modal de notificaciones y retroalimentacion
+  const [feedback, setFeedback] = useState<{
+    isOpen: boolean;
+    type: "success" | "error";
+    title: string;
+    message: string;
+  }>({
+    isOpen: false,
+    type: "success",
+    title: "",
+    message: "",
+  })
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 20)
     window.addEventListener("scroll", handleScroll)
 
-    // Cargamos los datos al iniciar
     const savedName = localStorage.getItem("user_name")
     if (savedName) {
       const email = localStorage.getItem("user_email") || ""
@@ -54,42 +66,62 @@ export function Header() {
     window.location.reload()
   }
 
-  // --- LÓGICA DE ACTUALIZACIÓN DE PERFIL ---
+  // Actualizacion de perfil mediante API REST
   const handleUpdateProfile = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
 
     try {
       const response = await fetch("/api/auth/profile", {
-        method: "PUT", // Usamos PUT para "Actualizar"
+        method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          originalEmail: user?.email, // Necesitamos el original para buscarlo en la DB
-          ...profileData
+          originalEmail: user?.email,
+          ...profileData,
         }),
       })
 
       const data = await response.json()
 
       if (response.ok) {
-        // Si todo sale bien, actualizamos la "mochila" (localStorage) y el estado visual
         localStorage.setItem("user_name", profileData.name)
         localStorage.setItem("user_email", profileData.email)
         localStorage.setItem("user_address", profileData.address)
         
         setUser({ name: profileData.name, email: profileData.email, address: profileData.address })
-        alert("✅ " + data.message)
         setIsProfileOpen(false)
-        
-        // Un pequeño truco: recargar la página suavemente para que el carrito vea la nueva dirección
-        window.location.reload()
+
+        setFeedback({
+          isOpen: true,
+          type: "success",
+          title: "Perfil Actualizado",
+          message: data.message || "Tu información se ha actualizado correctamente.",
+        })
       } else {
-        alert("❌ " + data.error)
+        setFeedback({
+          isOpen: true,
+          type: "error",
+          title: "Error al Actualizar",
+          message: data.error || "No se pudo actualizar la información del perfil.",
+        })
       }
     } catch (error) {
-      alert("Error al conectar con el servidor")
+      setFeedback({
+        isOpen: true,
+        type: "error",
+        title: "Error de Red",
+        message: "No fue posible conectar con el servidor. Revisa tu conexión.",
+      })
     } finally {
       setLoading(false)
+    }
+  }
+
+  const handleCloseFeedback = () => {
+    const wasSuccess = feedback.type === "success"
+    setFeedback((prev) => ({ ...prev, isOpen: false }))
+    if (wasSuccess) {
+      window.location.reload()
     }
   }
 
@@ -104,18 +136,15 @@ export function Header() {
       }`}>
         <div className="container mx-auto px-6 lg:px-12 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-3 group">
-  {/* Agrandamos la caja a w-12 h-12 (o cámbialo a w-14 h-14 si lo quieres aún más grande) */}
-  <div className="w-22 h-22 rounded-xl bg-primary/0 flex items-center justify-center group-hover:bg-primary/30 transition-all p-1">
-    <img 
-      src="/Logo-EcoLemna.png" 
-      alt="Logo de EcoLemna" 
-      /* La imagen ahora toma todo el alto de su nueva caja grande */
-      className="h-full w-auto object-contain"
-    />
-  </div>
-  {/* Hice el texto un poquito más grande (text-2xl) para que combine con el nuevo logo */}
-  <span className="text-2xl font-bold tracking-tight">Eco<span className="text-primary">Lemna</span></span>
-</Link>
+            <div className="w-22 h-22 rounded-xl bg-primary/0 flex items-center justify-center group-hover:bg-primary/30 transition-all p-1">
+              <img 
+                src="/Logo-EcoLemna.png" 
+                alt="Logo de EcoLemna" 
+                className="h-full w-auto object-contain"
+              />
+            </div>
+            <span className="text-2xl font-bold tracking-tight">Eco<span className="text-primary">Lemna</span></span>
+          </Link>
 
           <nav className="hidden md:flex items-center gap-8">
             {navLinks.map((link) => (
@@ -128,7 +157,6 @@ export function Header() {
           <div className="hidden md:flex items-center gap-4">
             {user ? (
               <div className="flex items-center gap-3">
-                {/* AHORA EL NOMBRE ES UN BOTÓN QUE ABRE EL PERFIL */}
                 <button 
                   onClick={() => setIsProfileOpen(true)}
                   className="flex items-center gap-2 px-4 py-2 bg-primary/10 hover:bg-primary/20 text-primary rounded-full border border-primary/20 text-sm font-semibold transition-colors"
@@ -150,13 +178,13 @@ export function Header() {
           </div>
 
           <button className="md:hidden" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
-            {isMobileMenuOpen ? <X /> : <Menu />}
+            {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
         </div>
 
-        {/* --- MENÚ DESPLEGABLE MÓVIL --- */}
+        {/* Menu desplegable movil */}
         {isMobileMenuOpen && (
-          <div className="md:hidden bg-background/95 backdrop-blur-xl border-b border-border/50 py-6 px-6 space-y-6 animate-in fade-in slide-in-from-top-4 duration-300">
+          <div className="md:hidden bg-background/95 backdrop-blur-xl border-b border-border/50 py-6 px-6 space-y-6">
             <nav className="flex flex-col gap-4">
               {navLinks.map((link) => (
                 <a 
@@ -175,8 +203,8 @@ export function Header() {
                 <div className="flex flex-col gap-4">
                   <button 
                     onClick={() => {
-                      setIsProfileOpen(true);
-                      setIsMobileMenuOpen(false);
+                      setIsProfileOpen(true)
+                      setIsMobileMenuOpen(false)
                     }}
                     className="flex items-center justify-center gap-3 w-full py-4 bg-primary/10 text-primary rounded-2xl font-bold"
                   >
@@ -201,7 +229,7 @@ export function Header() {
         )}
       </header>
 
-      {/* MODAL DE CONFIGURACIÓN DE PERFIL */}
+      {/* Modal de configuracion de perfil */}
       <Dialog open={isProfileOpen} onOpenChange={setIsProfileOpen}>
         <DialogContent className="sm:max-w-[425px] bg-card border-border">
           <DialogHeader>
@@ -222,7 +250,7 @@ export function Header() {
             </div>
             <div className="space-y-2">
               <Label htmlFor="address">Dirección de Envío</Label>
-              <Input id="address" value={profileData.address} onChange={handleChange} placeholder="Ej: Calle Principal 123..." required className="bg-background border-primary/50" />
+              <Input id="address" value={profileData.address} onChange={handleChange} placeholder="Calle Principal 123..." required className="bg-background border-primary/50" />
             </div>
             <div className="space-y-2 pt-4 border-t border-border/50">
               <Label htmlFor="password">Nueva Contraseña <span className="text-muted-foreground font-normal text-xs">(Opcional)</span></Label>
@@ -233,6 +261,39 @@ export function Header() {
               {loading ? <Loader2 className="animate-spin mr-2" /> : "Guardar Cambios"}
             </Button>
           </form>
+        </DialogContent>
+      </Dialog>
+
+      {/* Modal de confirmacion y retroalimentacion con vectores SVG */}
+      <Dialog open={feedback.isOpen} onOpenChange={handleCloseFeedback}>
+        <DialogContent className="sm:max-w-[400px] bg-card border-border text-center">
+          <div className="flex flex-col items-center justify-center pt-4 pb-2 space-y-4">
+            <div className={`w-16 h-16 rounded-full flex items-center justify-center border ${
+              feedback.type === "success" 
+                ? "bg-primary/10 border-primary/30 text-primary" 
+                : "bg-destructive/10 border-destructive/30 text-destructive"
+            }`}>
+              {feedback.type === "success" ? (
+                <CheckCircle2 className="w-8 h-8" />
+              ) : (
+                <AlertCircle className="w-8 h-8" />
+              )}
+            </div>
+
+            <DialogHeader>
+              <DialogTitle className="text-2xl text-center">{feedback.title}</DialogTitle>
+              <DialogDescription className="text-center text-balance pt-2">
+                {feedback.message}
+              </DialogDescription>
+            </DialogHeader>
+
+            <Button 
+              onClick={handleCloseFeedback} 
+              className="w-full h-12 rounded-xl mt-4 font-semibold"
+            >
+              Aceptar
+            </Button>
+          </div>
         </DialogContent>
       </Dialog>
     </>

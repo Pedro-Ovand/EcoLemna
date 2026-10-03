@@ -2,48 +2,112 @@ import { NextResponse } from "next/server";
 
 export async function POST(request: Request) {
   try {
-    const { message } = await request.json();
+    const body = await request.json();
+    const message = body?.message || "";
     const lowerMsg = message.toLowerCase(); 
     
-    // NUEVA RESPUESTA POR DEFECTO: Cuando no entiende nada
-    let reply = "Lo siento, no he entendido tu pregunta 🤔. Aún estoy aprendiendo. Puedes preguntarme sobre 'precios', 'envíos' o qué es la 'Lemna'.";
+    // Respuesta por defecto cuando no se detecta una intencion conocida
+    let reply = "Lo siento, no he entendido tu pregunta. Aún estoy aprendiendo. Puedes preguntarme sobre 'precios', 'envíos' o qué es la 'Lemna'.";
 
-    // Lógica de Inteligencia (Palabras Clave)
-    if (lowerMsg.includes("precio") || lowerMsg.includes("cuesta") || lowerMsg.includes("comprar") || lowerMsg.includes("formatos") || lowerMsg.includes("precios")) {
-      reply = "Actualmente manejamos precios muy accesibles en MXN. Tenemos la línea de Lemna Minor Cruda (desde $41.21 MXN) y Harina de Lemna (desde $20.61 MXN) en presentaciones de 50g, 500g y 1kg. Además, contamos con un Servicio de Capacitación + Kit por $1,500.00 MXN. ¡Ve a la sección de 'Nuestra Oferta' más abajo para armar tu pedido! 🌿🛒";
+    // Consulta sobre precios y catalogo de productos
+    if (
+      lowerMsg.includes("precio") || 
+      lowerMsg.includes("cuesta") || 
+      lowerMsg.includes("comprar") || 
+      lowerMsg.includes("formatos") || 
+      lowerMsg.includes("precios") ||
+      lowerMsg.includes("producto") ||
+      lowerMsg.includes("productos") ||
+      lowerMsg.includes("cuanto vale") ||
+      lowerMsg.includes("costo")
+    ) {
+      reply = "Actualmente manejamos precios directos en MXN: Harina de Lemna en presentación de 50g por $51.63 MXN y nuestro Servicio de Capacitación más Kit de Cultivo por $1,500.00 MXN. Puedes consultar los detalles y armar tu pedido en la sección de 'Nuestra Oferta'.";
     } 
-    // ENVÍOS
-    else if (lowerMsg.includes("envio") || lowerMsg.includes("envíos") || lowerMsg.includes("envío") || lowerMsg.includes("llega") || lowerMsg.includes("país") || lowerMsg.includes("entrega") || lowerMsg.includes("enviar") || lowerMsg.includes("tiempo de entrega") || lowerMsg.includes("tarda en llegar") || lowerMsg.includes("tiempo de envio") ) {
-      reply = "Tenemos Envío Gratis. El pedido llegará directamente a la dirección que guardaste al iniciar sesión. Tarda aproximadamente 48 horas. 🚚";
+    // Politicas de envio y tiempos de entrega
+    else if (
+      lowerMsg.includes("envio") || 
+      lowerMsg.includes("envios") || 
+      lowerMsg.includes("envío") || 
+      lowerMsg.includes("envíos") || 
+      lowerMsg.includes("llega") || 
+      lowerMsg.includes("país") || 
+      lowerMsg.includes("pais") || 
+      lowerMsg.includes("entrega") || 
+      lowerMsg.includes("enviar") || 
+      lowerMsg.includes("tiempo de entrega") || 
+      lowerMsg.includes("tarda en llegar") || 
+      lowerMsg.includes("tiempo de envio") ||
+      lowerMsg.includes("tiempo de envío")
+    ) {
+      reply = "Tenemos Envío Gratis. El pedido llegará directamente a la dirección registrada en tu perfil de usuario. El tiempo estimado de entrega es de aproximadamente 48 horas hábiles.";
     } 
-    // DEFINICIÓN DE LEMNA (¡AQUÍ ESTÁ LA VERSIÓN A PRUEBA DE BALAS!)
-    else if (lowerMsg.includes("lemna") || lowerMsg.includes("que es") || lowerMsg.includes("proteina") || lowerMsg.includes("beneficios")) {
-      reply = "La Lemna minor es una planta acuática de estructura minimalista que utiliza su fronde ovalado y su raíz única para optimizar la absorción de nutrientes y el equilibrio en el agua. " + 
-              "Este organismo funciona como un bioreactor de alta eficiencia que sintetiza proteínas de gran valor biológico a partir de nitratos y fosfatos, alcanzando niveles proteicos de hasta un 40% en su biomasa seca. " + 
-              "Además, la Lemna es una planta de crecimiento extremadamente rápido, lo que la convierte en una fuente sostenible y renovable de nutrición para peces. 🌿🐟";
+    // Definicion tecnica y beneficios de Lemna Minor
+    else if (
+      lowerMsg.includes("que es") || 
+      lowerMsg.includes("qué es") || 
+      lowerMsg.includes("proteina") || 
+      lowerMsg.includes("proteína") || 
+      lowerMsg.includes("beneficios")
+    ) {
+      reply = "La Lemna minor es una planta acuática con hasta un 40% de proteína vegetal. Es un alimento natural, altamente digerible y sostenible para optimizar la nutrición de tus peces.";
     }
-    // CRECIMIENTO
-    else if (lowerMsg.includes("crece") || lowerMsg.includes("crecimiento") || lowerMsg.includes("reproduce") || lowerMsg.includes("duplica") || lowerMsg.includes("tarda en crecer") || lowerMsg.includes("rápido")) {
-      reply = "¡Su velocidad te sorprenderá! La Lemna minor tiene una tasa de crecimiento exponencial y es capaz de duplicar su biomasa cada 24 a 48 horas bajo condiciones óptimas de temperatura. 📈🌱";
+    // Tasa de crecimiento y multiplicacion biologica
+    else if (
+      lowerMsg.includes("crece") || 
+      lowerMsg.includes("crecimiento") || 
+      lowerMsg.includes("reproduce") || 
+      lowerMsg.includes("duplica") || 
+      lowerMsg.includes("tarda en crecer") || 
+      lowerMsg.includes("rapido") || 
+      lowerMsg.includes("rápido")
+    ) {
+      reply = "Su velocidad de desarrollo es sobresaliente: la Lemna minor presenta una tasa de crecimiento exponencial y es capaz de duplicar su biomasa cada 24 a 48 horas bajo condiciones óptimas de luz, temperatura y nutrientes.";
     }
-    // SALUDOS
-    else if (lowerMsg.includes("hola") || lowerMsg.includes("buenos") || lowerMsg.includes("buenas") || lowerMsg.includes("hey") || lowerMsg.includes("hello")) {
-      reply = "¡Hola, querido amigo! 👋 Soy EcoBot. ¿Qué duda puedo resolverte hoy?";
+    // Saludos de cortesia
+    else if (
+      lowerMsg.includes("hola") || 
+      lowerMsg.includes("buenos") || 
+      lowerMsg.includes("buenas") || 
+      lowerMsg.includes("hey") || 
+      lowerMsg.includes("hello")
+    ) {
+      reply = "Hola. Soy EcoBot, el asistente técnico de EcoLemna. ¿En qué duda o requerimiento puedo apoyarte hoy?";
     }
-    // DESPEDIDAS
-    else if (lowerMsg.includes("gracias") || lowerMsg.includes("grax") || lowerMsg.includes("thx") || lowerMsg.includes("thank") || lowerMsg.includes("muy amable") || lowerMsg.includes("genial")) {
-      reply = "¡De nada! Ha sido un placer. Si necesitas hacer tu pedido, no olvides iniciar sesión primero. 🌿";
+    // Agradecimientos y cierre
+    else if (
+      lowerMsg.includes("gracias") || 
+      lowerMsg.includes("grax") || 
+      lowerMsg.includes("thx") || 
+      lowerMsg.includes("thank") || 
+      lowerMsg.includes("muy amable") || 
+      lowerMsg.includes("genial")
+    ) {
+      reply = "De nada. Es un placer ayudarte. Recuerda que para realizar tu pedido es importante registrar o verificar tu dirección de envío en la sección Mi Perfil.";
     }
-    else if (lowerMsg.includes("servicio") || lowerMsg.includes("Costo de servicio") || lowerMsg.includes("Como es el servicio") || lowerMsg.includes("Servicio de capacitacion") || lowerMsg.includes("Capacitacion")) {
-      reply = "¡Claro! Nuestro servicio de capacitación tiene un costo de $1500 MXN, esto te incluye 1 Kilo de Lemna Minor cruda o en harina, tambien puede ser medio kilo de ambas (queda a su elección), además de 1 capacitación semanal (4 sesiones al mes) durante un mes, esto incluye Manual técnico en Zapoteco o Náhuatl";
+    // Servicio de capacitacion y asesoria tecnica
+    else if (
+      lowerMsg.includes("servicio") || 
+      lowerMsg.includes("costo de servicio") || 
+      lowerMsg.includes("como es el servicio") || 
+      lowerMsg.includes("cómo es el servicio") || 
+      lowerMsg.includes("servicio de capacitacion") || 
+      lowerMsg.includes("servicio de capacitación") || 
+      lowerMsg.includes("capacitacion") || 
+      lowerMsg.includes("capacitación") ||
+      lowerMsg.includes("taller") ||
+      lowerMsg.includes("kit")
+    ) {
+      reply = "Nuestro servicio de capacitación tiene un costo de $1,500.00 MXN. Incluye 1 kilo de Lemna minor (cruda o en harina a elegir, o 500g de ambas), manual técnico especializado en Zapoteco o Náhuatl, y 1 sesión semanal de capacitación técnica (4 sesiones al mes).";
     }
-    
 
-    // Simulamos que está escribiendo
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    // Simulacion de latencia natural del asistente
+    await new Promise((resolve) => setTimeout(resolve, 1000));
 
     return NextResponse.json({ reply }, { status: 200 });
   } catch (error) {
-    return NextResponse.json({ reply: "Ups, mis circuitos se mojaron. Intenta de nuevo más tarde 🤖💧" }, { status: 500 });
+    return NextResponse.json(
+      { reply: "Ocurrió un error interno al procesar tu solicitud. Por favor intenta nuevamente más tarde." }, 
+      { status: 500 }
+    );
   }
 }
