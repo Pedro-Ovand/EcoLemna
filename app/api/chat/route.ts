@@ -21,7 +21,7 @@ export async function POST(request: Request) {
       lowerMsg.includes("cuanto vale") ||
       lowerMsg.includes("costo")
     ) {
-      reply = "Actualmente manejamos precios directos en MXN: Harina de Lemna en presentación de 50g por $51.63 MXN y nuestro Servicio de Capacitación más Kit de Cultivo por $1,500.00 MXN. Puedes consultar los detalles y armar tu pedido en la sección de 'Nuestra Oferta'.";
+      reply = "Actualmente manejamos precios directos en MXN: Harina de Lemna en presentación de 50g por $49.00 MXN y nuestro Servicio de Capacitación más Kit de Cultivo gratis. Puedes consultar los detalles y armar tu pedido en la sección de 'Nuestra Oferta'.";
     } 
     // Politicas de envio y tiempos de entrega
     else if (
